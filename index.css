@@ -1,0 +1,20 @@
+* {
+  background-color: #283b55;
+}
+
+#title {
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+}
+
+#headingSpan {
+    color: #4ADF86;
+}
+
+#subtitle {
+    color: rgb(179, 179, 179);
+}
+
+#pwdForm {
+    background-color: #283b55;
+}
