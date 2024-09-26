@@ -2,3 +2,11 @@
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
     "Lucida Sans", Arial, sans-serif;
 }
+
+#input {
+  background-color: rgb(216, 208, 208);
+}
+
+.pwd {
+    background-color: rgb(161, 157, 157);
+}
