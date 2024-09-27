@@ -54,8 +54,16 @@ $(document).ready(function () {
         clearResult();
     });
 
+    $("#btn-cont").find("button").css("transition", "transform 0.3s ease-in-out");
+    $("#btn-cont").hover(function () {
+            $(this).find("button").css("transform", "scale(1.2)");
+        }, function () {
+            $(this).find("button").css("transform", "scale(1)");
+        }
+    );
+
     $(".pwd").hover(function () {
-            $(".pwd").css("cursor", "pointer");
+            $(this).css("cursor", "pointer");
         }
     );
 
@@ -72,6 +80,11 @@ $(document).ready(function () {
     });
 
     function renderResult() {
+
+        if ($(".pwd").text() == "") {
+            return;
+        }
+
         const resultEl = $("#result");
 
         resultEl.text("Copied!");
