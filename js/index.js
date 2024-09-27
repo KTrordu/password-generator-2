@@ -24,8 +24,9 @@ $(document).ready(function () {
         if (passwordLength > 30) {
             alert("Your password can contain 30 characters at maximum!");
             return false;
-        } else if (passwordLength == NaN) {
-            passwordLength = defaultPasswordLength;
+        } else if (isNaN(passwordLength)) {
+            return "default";
+        } else {
             return true;
         }
     }
@@ -39,12 +40,46 @@ $(document).ready(function () {
         let passwordLength = $("#input").val();
         passwordLength = parseInt(passwordLength);
 
-        const renderCondition = controlLength(passwordLength);
+        const controlResult = controlLength(passwordLength);
 
-        if (!renderCondition) {
+        if (!controlResult) {
             return;
         }
 
+        if(controlResult == "default") {
+            passwordLength = defaultPasswordLength;
+        }
+
         renderPassword(passwordLength);
+        clearResult();
     });
+
+    $(".pwd").hover(function () {
+            $(".pwd").css("cursor", "pointer");
+        }
+    );
+
+    $(".pwd").click(function () { 
+        const copyTextAttr = $(this).attr("id");
+
+        const copyText = $(`#${copyTextAttr}`);
+
+        copyText.select();
+
+        navigator.clipboard.writeText($(copyText).text());
+
+        renderResult();
+    });
+
+    function renderResult() {
+        const resultEl = $("#result");
+
+        resultEl.text("Copied!");
+    }
+
+    function clearResult() {
+        const resultEl = $("#result");
+
+        resultEl.text("");
+    }
 });
