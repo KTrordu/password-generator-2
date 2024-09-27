@@ -7,17 +7,44 @@ $(document).ready(function () {
         "(",")","_","-","+","=","{","[","}","]",",","|",":",";","<",">",".","?",
     "/"];
 
-    const passwordLength = $("input").val();
     const defaultPasswordLength = 15;
 
     function generatePassword(passwordLength) {
+
         const passwordArray = [];
 
         for (let i = 0; i < passwordLength; i++) {
-            passwordArray.push(characters[i]);
+            passwordArray.push(characters[Math.floor(Math.random() * characters.length)]);
         }
-
-        return JSON.stringify(passwordArray);
+        
+        return passwordArray.join("");
     }
 
+    function controlLength(passwordLength) {
+        if (passwordLength > 30) {
+            alert("Your password can contain 30 characters at maximum!");
+            return false;
+        } else if (passwordLength == NaN) {
+            passwordLength = defaultPasswordLength;
+            return true;
+        }
+    }
+
+    function renderPassword(passwordLength) {
+        $("#pwd1").text(generatePassword(passwordLength));
+        $("#pwd2").text(generatePassword(passwordLength));
+    }
+
+    $("#btn").click(function (e) {
+        let passwordLength = $("#input").val();
+        passwordLength = parseInt(passwordLength);
+
+        const renderCondition = controlLength(passwordLength);
+
+        if (!renderCondition) {
+            return;
+        }
+
+        renderPassword(passwordLength);
+    });
 });
