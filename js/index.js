@@ -9,12 +9,37 @@ $(document).ready(function () {
 
   const defaultPasswordLength = 15;
 
+  function generatePasswordElements() {
+    const isLowerCase = $("#inlineCheckbox1").is(":checked");
+    const isUpperCase = $("#inlineCheckbox2").is(":checked");
+    const isNumbers = $("#inlineCheckbox3").is(":checked");
+    const isSymbols = $("#inlineCheckbox4").is(":checked");
+
+    const passwordElements = [];
+
+    for (let i = 0; i < characters.length; i++) {
+        if (!isUpperCase && i >= 0 && i <= 25)
+            continue;
+        if (!isLowerCase && i >= 26 && i <= 51)
+            continue;
+        if (!isNumbers && i >= 52 && i <= 61)
+            continue;
+        if (!isSymbols && i >= 62 && i <= 90)
+            continue;
+
+        passwordElements.push(characters[i]);
+    }
+
+    return passwordElements;
+  }
+
   function generatePassword(passwordLength) {
     const passwordArray = [];
+    const passwordElements = generatePasswordElements();
 
     for (let i = 0; i < passwordLength; i++) {
       passwordArray.push(
-        characters[Math.floor(Math.random() * characters.length)]
+        passwordElements[Math.floor(Math.random() * passwordElements.length)]
       );
     }
 
