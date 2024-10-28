@@ -7,92 +7,97 @@ $(document).ready(function () {
         "(",")","_","-","+","=","{","[","}","]",",","|",":",";","<",">",".","?",
     "/"];
 
-    const defaultPasswordLength = 15;
+  const defaultPasswordLength = 15;
 
-    function generatePassword(passwordLength) {
+  function generatePassword(passwordLength) {
+    const passwordArray = [];
 
-        const passwordArray = [];
-
-        for (let i = 0; i < passwordLength; i++) {
-            passwordArray.push(characters[Math.floor(Math.random() * characters.length)]);
-        }
-        
-        return passwordArray.join("");
+    for (let i = 0; i < passwordLength; i++) {
+      passwordArray.push(
+        characters[Math.floor(Math.random() * characters.length)]
+      );
     }
 
-    function controlLength(passwordLength) {
-        if (passwordLength > 30) {
-            alert("Your password can contain 30 characters at maximum!");
-            return false;
-        } else if (isNaN(passwordLength)) {
-            return "default";
-        } else {
-            return true;
-        }
+    return passwordArray.join("");
+  }
+
+  function controlLength(passwordLength) {
+    if (passwordLength > 30) {
+      alert("Your password can contain 30 characters at maximum!");
+      return false;
+    } else if (passwordLength < 8) {
+        alert("Your password can contain at least 8 characters!");
+        return false;
+    }
+    else if (isNaN(passwordLength)) {
+      return "default";
+    } else {
+      return true;
+    }
+  }
+
+  function renderPassword(passwordLength) {
+    $("#pwd1").text(generatePassword(passwordLength));
+    $("#pwd2").text(generatePassword(passwordLength));
+  }
+
+  $("#btn").click(function (e) {
+    let passwordLength = $("#input").val();
+    passwordLength = parseInt(passwordLength);
+
+    const controlResult = controlLength(passwordLength);
+
+    if (!controlResult) {
+      return;
     }
 
-    function renderPassword(passwordLength) {
-        $("#pwd1").text(generatePassword(passwordLength));
-        $("#pwd2").text(generatePassword(passwordLength));
+    if (controlResult == "default") {
+      passwordLength = defaultPasswordLength;
     }
 
-    $("#btn").click(function (e) {
-        let passwordLength = $("#input").val();
-        passwordLength = parseInt(passwordLength);
+    renderPassword(passwordLength);
+    clearResult();
+  });
 
-        const controlResult = controlLength(passwordLength);
+  $("#btn-cont").find("button").css("transition", "transform 0.3s ease-in-out");
+  $("#btn-cont").hover(
+    function () {
+      $(this).find("button").css("transform", "scale(1.2)");
+    },
+    function () {
+      $(this).find("button").css("transform", "scale(1)");
+    }
+  );
 
-        if (!controlResult) {
-            return;
-        }
+  $(".pwd").hover(function () {
+    $(this).css("cursor", "pointer");
+  });
 
-        if(controlResult == "default") {
-            passwordLength = defaultPasswordLength;
-        }
+  $(".pwd").click(function () {
+    const copyTextAttr = $(this).attr("id");
 
-        renderPassword(passwordLength);
-        clearResult();
-    });
+    const copyText = $(`#${copyTextAttr}`);
 
-    $("#btn-cont").find("button").css("transition", "transform 0.3s ease-in-out");
-    $("#btn-cont").hover(function () {
-            $(this).find("button").css("transform", "scale(1.2)");
-        }, function () {
-            $(this).find("button").css("transform", "scale(1)");
-        }
-    );
+    copyText.select();
 
-    $(".pwd").hover(function () {
-            $(this).css("cursor", "pointer");
-        }
-    );
+    navigator.clipboard.writeText($(copyText).text());
 
-    $(".pwd").click(function () { 
-        const copyTextAttr = $(this).attr("id");
+    renderResult();
+  });
 
-        const copyText = $(`#${copyTextAttr}`);
-
-        copyText.select();
-
-        navigator.clipboard.writeText($(copyText).text());
-
-        renderResult();
-    });
-
-    function renderResult() {
-
-        if ($(".pwd").text() == "") {
-            return;
-        }
-
-        const resultEl = $("#result");
-
-        resultEl.text("Copied!");
+  function renderResult() {
+    if ($(".pwd").text() == "") {
+      return;
     }
 
-    function clearResult() {
-        const resultEl = $("#result");
+    const resultEl = $("#result");
 
-        resultEl.text("");
-    }
+    resultEl.text("Copied!");
+  }
+
+  function clearResult() {
+    const resultEl = $("#result");
+
+    resultEl.text("");
+  }
 });
